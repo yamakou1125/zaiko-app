@@ -73,11 +73,11 @@ public class Item {
 		this.name = name;
 	}
 
-	public Integer getAmmount() {
+	public Integer getAmount() {
 		return amount;
 	}
 
-	public void setAnoubt(Integer amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 
