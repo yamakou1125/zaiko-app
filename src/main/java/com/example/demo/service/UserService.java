@@ -12,8 +12,13 @@ public class UserService {
 	UserRepository userRepository;
 	
 	//レコード追加
-		public void saveUser(User user) {
-			userRepository.save(user);
-		}
+	public void saveUser(User user) {
+		userRepository.save(user);
+	}
+	
+	// 名前とパスワードで検索
+	public User findLoginUser(String password, String name) {
+		return userRepository.findByPasswordAndName(password, name);
+	}
 
 }

@@ -6,5 +6,24 @@
 </head>
 <body>
 	<h1>ログイン画面</h1>
+	
+	<div>
+		<div th:each="errorMessage : ${errorMessages}">
+			<div th:text="${errorMessage}" style="color: red;"></div>
+		</div>
+	</div>
+	<form action="postLogin" method="post" th;object="${loginUser}">
+		<div>
+			<label for="name">名前</label>
+			<input name="name" id="name"/>
+		</div>
+		<div>
+			<label for="password">パスワード</label>
+			<input name="password" type="password" id="password">
+		</div>
+		<div>
+			<button type="submit"> ログイン</button>
+		</div>
+	</form>
 </body>
 </html>

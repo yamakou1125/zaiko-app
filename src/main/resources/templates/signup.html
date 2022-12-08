@@ -8,27 +8,25 @@
 <h1>ユーザー 新規登録画面</h1>
 
 <form method="post" action="/add" th:object="${user}">
-
-		<div>
-			<label for="name">名前</label>
-			　　　　　　　<input type="text" name="name" th:value="*{name}" placeholder="20字以内"/><br />
-		</div>
-
-		<div>
-			<label for="password">パスワード</label>
-			　　　　<input name="password" type="password" id="password" placeholder="5字以上20字以内"/> <br />
-		</div>
-
-		<div>
-			<label for="password">パスワード確認用</label>
-			　<input name="confirmation_password" type="password" id="confirmation_password" placeholder="5字以上20字以内"/> <br />
-		</div>
-
-		<div>
-			<button type="submit"> 登録</button> <br />
-		</div>
-	</form>
+	<div>
+		<label for="name">名前</label>
+		<input type="text" name="name" th:value="*{name}" placeholder="20字以内"/>
 	</div>
+
+	<div>
+		<label for="password">パスワード</label>
+		<input name="password" type="password" id="password" placeholder="5字以上20字以内"/>
+	</div>
+
+	<div>
+		<label for="password">パスワード確認用</label>
+		<input name="confirmation_password" type="password" id="confirmation_password" placeholder="5字以上20字以内"/>
+	</div>
+
+	<div>
+		<button type="submit"> 登録</button>
+	</div>
+</form>
 
 </body>
 </html>
