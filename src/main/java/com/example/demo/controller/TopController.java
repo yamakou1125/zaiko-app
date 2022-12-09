@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.entity.User;
+
 import jakarta.servlet.http.HttpSession;
 
 
@@ -18,6 +20,8 @@ public class TopController {
 	@GetMapping("/")
 	public ModelAndView topDisp() {
 		ModelAndView mav = new ModelAndView();
+		User loginUser = (User) session.getAttribute("loginUser");
+		mav.addObject("loginUser", loginUser);
 		mav.setViewName("/top");
 		return mav;
 	}

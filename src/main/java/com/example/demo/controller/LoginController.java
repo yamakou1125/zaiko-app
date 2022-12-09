@@ -86,4 +86,12 @@ public class LoginController {
 
 		return new ModelAndView("redirect:/");
 	}
+	
+	//ログアウト処理
+	@GetMapping("/logout")
+	public ModelAndView logout() {
+		// セッションの無効化
+		session.invalidate();
+		return new ModelAndView("redirect:/login");
+	}
 }
