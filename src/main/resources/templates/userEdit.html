@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ユーザー 編集画面</title>
+</head>
+<body>
+	<h1>ユーザー 編集画面</h1>
+	<div th:if="${errorMessages != null}">
+		<div th:each="errorMessage : ${errorMessages}">
+			<div th:text="${errorMessage}"></div>
+		</div>
+	</div>
+
+	<form th:action="@{/update_user/{id}(id=${loginUser.id})}"
+		th:object="${loginUser}" th:method="put">
+		<div>
+			<label for="name">名前</label> 
+			<input type="text" name="name" id="name" th:value="${loginUser.name}">
+		</div>
+
+		<div>
+			<label for="password">パスワード</label>
+			<input type="text" name="password" id="password">
+		</div>
+
+		<div>
+			<label for="password">パスワード確認用</label>
+			<input name="confirmation_password" type="password" id="confirmation_password">
+		</div>
+		
+		<div>
+			<div>
+				<button type="submit">
+					更新
+				</button>
+			</div>
+		</div>
+
+</body>
+</html>
