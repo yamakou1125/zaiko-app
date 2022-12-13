@@ -36,6 +36,10 @@
 				</button>
 			</div>
 		</div>
+	</form>
+	<form th:action="@{/user_delete/{id}(id=${loginUser.id})}" th:method="delete">
+		<input type="submit" value="削除" onclick="confirm('退会しますか')">
+	</form>
 
 </body>
 </html>

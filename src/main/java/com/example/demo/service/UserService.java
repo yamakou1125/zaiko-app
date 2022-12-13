@@ -26,5 +26,10 @@ public class UserService {
 		User user =  userRepository.findById(id).orElse(null);
 		return user;
 	}
+	
+	//ユーザー退会
+	public void deleteUser(Integer id) {
+		userRepository.deleteById(id);
+	}
 
 }

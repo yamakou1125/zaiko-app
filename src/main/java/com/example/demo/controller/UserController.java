@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -145,6 +146,15 @@ public class UserController {
 		session.setAttribute("loginUser", user);
 		// ユーザー管理画面へリダイレクト
 		return new ModelAndView("redirect:/");
+	}
+	
+	//ユーザー 退会処理
+	@DeleteMapping("/user_delete/{id}")
+	public ModelAndView deleteUser(@PathVariable Integer id) {
+		userService.deleteUser(id);
+		// セッションの無効化
+		session.invalidate();
+		return new ModelAndView("redirect:/login");
 	}
 
 }
