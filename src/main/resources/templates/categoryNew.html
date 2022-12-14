@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>カテゴリー 新規登録画面</title>
+</head>
+<body>
+<h1>カテゴリー 新規登録画面</h1>
+
+<form method="post" action="/createcategory" th:object="${category}">
+	<div>
+		<label for="name">カテゴリー名</label>
+		<input type="text" name="name" th:value="*{name}" placeholder="20字以内">
+	</div>
+
+	<div>
+		<button type="submit"> 登録</button>
+	</div>
+</form>
+</body>
+</html>
