@@ -7,5 +7,27 @@
 <body>
 <h1>カテゴリー 一覧</h1>
 <a href="/newcategory">カテゴリー 新規登録画面</a>
+<table>
+	<tr>
+		<th>カテゴリー名</th>
+		<th>編集</th>
+		<th>削除</th>
+	</tr>
+
+	<tr th:each="category : ${categoryList}">
+
+		<td th:text="${category.name}"></td>
+
+		<td>
+		 <a th:href="@{/editcategory/{id}(id=${category.id})} "><button type="submit">編集</button></a>
+		</td>
+
+		<td>
+			<form th:action="@{/deletecategory/{id}(id=${category.id})}" th:method="delete">
+				<input type="submit" value="削除" onclick="confirm('削除しますか')">
+			</form>
+		</td>
+	</tr>
+</table>
 </body>
 </html>

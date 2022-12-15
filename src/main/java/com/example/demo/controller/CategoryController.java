@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +26,9 @@ public class CategoryController {
 	public ModelAndView newcategory() {
 		ModelAndView mav = new ModelAndView();
 		User loginUser = (User) session.getAttribute("loginUser");
+		List<Category> categoryList = categoryService.findAllCategory();//DBにあるincome全てを格納
 		mav.addObject("loginUser", loginUser);
+		mav.addObject("categoryList", categoryList);
 		mav.setViewName("/categorytop");
 		return mav;
 	}
