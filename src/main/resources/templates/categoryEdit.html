@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>カテゴリー 編集画面</title>
+</head>
+<body>
+<h1>カテゴリー 編集画面</h1>
+	<div class="col-12">
+		<th:block th:each="errorMessages : ${errorMessages}">
+			<th:block th:text="${errorMessages}"></th:block><br>
+		</th:block>
+	</div>
+
+	<form th:action="@{/updatecategory/{id}(id=${category.id})}" th:object="${category}" th:method="put">
+
+		<div>
+		カテゴリー
+		</div>
+		<div>
+			<input type="text" name="name" id="name" th:value="${category.name}">
+        </div>
+		
+		<div>
+			<button type="submit">更新</button>
+		</div>
+	</form>
+	
+</body>
+</html>

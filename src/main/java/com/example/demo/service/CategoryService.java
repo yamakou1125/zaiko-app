@@ -22,5 +22,11 @@ public class CategoryService {
 	public List<Category> findAllCategory() {
 		return categoryRepository.findAll();
 	}
+	
+	// レコード1件取得
+	public Category editCategory(Integer id) {
+		Category category = (Category) categoryRepository.findById(id).orElse(null);
+		return category;
+	}
 
 }
