@@ -23,7 +23,7 @@
 		</td>
 
 		<td>
-			<form th:action="@{/deletecategory/{id}(id=${category.id})}" th:method="delete">
+			<form th:action="@{/categorydelete/{id}(id=${category.id})}" th:method="delete">
 				<input type="submit" value="削除" onclick="confirm('削除しますか')">
 			</form>
 		</td>

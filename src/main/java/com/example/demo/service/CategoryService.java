@@ -28,5 +28,10 @@ public class CategoryService {
 		Category category = (Category) categoryRepository.findById(id).orElse(null);
 		return category;
 	}
+	
+	//レコード削除
+	public void deleteCategoy(Integer id) {
+		categoryRepository.deleteById(id);
+	}
 
 }

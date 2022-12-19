@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,6 +104,13 @@ public class CategoryController {
 		category.setId(id);
 		// 編集したカテゴリーを更新
 		categoryService.saveCategory(category);
+		return new ModelAndView("redirect:/");
+	}
+	
+	//カテゴリー 削除処理
+	@DeleteMapping("/categorydelete/{id}")
+	public ModelAndView categoryDelete(@PathVariable Integer id) {
+		categoryService.deleteCategoy(id);
 		return new ModelAndView("redirect:/");
 	}
 
