@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div>
+	<h3>
+		在庫 新規登録
+	</h3>
+</div>
+
+<div>
+	<th:block th:each="errorMessages : ${errorMessages}">
+		<th:block th:text="${errorMessages}">
+		</th:block>
+	</th:block>
+</div>
+
+<div>
+	<form method="post" action="/add" th:object="${itemModel}">
+		<input type="hidden" name="userId" th:value="${session.loginUser.id}" />
+		<div>
+			商品名
+		</div>
+		<div>
+			<input type="text" name="name" th:value="*{name}" />
+		</div>
+		<div>
+			在庫数
+		</div>
+		<div>
+			<input type="number" name="amount" th:value="*{amount}"/>
+		</div>
+		<div>
+			カテゴリー
+		</div>
+		<div>
+			<select name="category">
+				<option value="00"></option>
+				<option th:each="category : ${categoriesList}"
+					th:value="${category.id}" th:text="${category.name}"
+					th:selected="${category.id == selectedCategory}">
+				</option>
+			</select>
+		</div>
+		<div>
+			期限
+		</div>
+		<div>
+			<input type= "date" name="expirationDate" th:value="*{expirationDate}" />
+		</div>
+		<div>
+			<div>
+				<button type="submit">
+					登録
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
+</body>
+</html>
