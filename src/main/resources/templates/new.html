@@ -19,7 +19,7 @@
 </div>
 
 <div>
-	<form method="post" action="/add" th:object="${itemModel}">
+	<form method="post" action="/additem" th:object="${itemModel}">
 		<input type="hidden" name="userId" th:value="${session.loginUser.id}" />
 		<div>
 			商品名
