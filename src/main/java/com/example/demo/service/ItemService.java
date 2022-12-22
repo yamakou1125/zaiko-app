@@ -25,6 +25,11 @@ public class ItemService {
 		return categoryRepository.findAll();
 	}
 	
+	//アイテムリスト取得
+		public List<Item> findAllItem() {
+			return itemRepository.findAll();
+		}
+	
 	//レコード追加
 	public void saveItem(Item item) {
 		item.setCreatedAt(Timestamp.valueOf(getTime()));
