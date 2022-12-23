@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -109,5 +111,38 @@ public class ItemController {
 		itemService.saveItem(item);
 
 		return new ModelAndView("redirect:/");
+	}
+	
+	// 収入編集画面表示
+	@GetMapping("/itemEdit/{id}")
+	public ModelAndView editItem(@PathVariable Integer id, RedirectAttributes attributes) throws ParseException {
+		ModelAndView mav = new ModelAndView();
+
+		//ログインフィルター
+		User loginUser = (User) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			attributes.addFlashAttribute("loginError", "ログインしてください");
+			mav.setViewName("redirect:/login");
+			return mav;
+		}
+
+		// 編集するアイテムを取得
+	    Item item = itemService.editItem(id);
+
+	  //カテゴリーリスト取得
+		List<Category> categoryList = itemService.findAllCategory();
+
+		mav.addObject("loginUser", loginUser);
+	    // 編集するアイテムをセット
+		mav.addObject("itemModel", item);
+		//カテゴリーリストをセット
+        mav.addObject("categoryList", categoryList);
+      //カテゴリーリスト初期値をセット
+        int categoryId = item.getCategoryId();
+        mav.addObject("selectedCategory", categoryId);
+
+		// 画面遷移先を指定
+		mav.setViewName("/itemEdit");
+		return mav;
 	}
 }

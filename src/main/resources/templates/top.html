@@ -36,11 +36,11 @@
 		<td th:text="${#dates.format(item.expirationDate, 'yyyy/MM/dd')}">
 
 		<td>
-		 <a th:href="@{/categoryEdit/{id}(id=${item.id})} "><button type="submit">編集</button></a>
+		 <a th:href="@{/itemEdit/{id}(id=${item.id})} "><button type="submit">編集</button></a>
 		</td>
 
 		<td>
-			<form th:action="@{/categorydelete/{id}(id=${item.id})}" th:method="delete">
+			<form th:action="@{/itemdelete/{id}(id=${item.id})}" th:method="delete">
 				<input type="submit" value="削除" onclick="confirm('削除しますか')">
 			</form>
 		</td>

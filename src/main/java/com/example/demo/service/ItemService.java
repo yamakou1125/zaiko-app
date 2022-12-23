@@ -41,4 +41,10 @@ public class ItemService {
 	private String getTime() {
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 	}
+	
+	// レコード1件取得
+	public Item editItem(Integer id) {
+		Item item = (Item) itemRepository.findById(id).orElse(null);
+		return item;
+	}
 }

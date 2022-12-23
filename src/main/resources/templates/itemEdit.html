@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>アイテム編集画面</title>
+</head>
+<body>
+ <h2>収入編集画面</h2>
+
+ 	
+<div>
+	<th:block th:each="errorMessages : ${errorMessages}">
+		<th:block th:text="${errorMessages}"></th:block><br>
+	</th:block>
+</div>
+
+
+<form th:method="put" th:action="@{/updateitem/{id}(id=${itemModel.id})}" th:object="${itemModel}">
+
+	<input type="hidden" name="userId" th:value="${session.loginUser.id}"/>
+
+	<div>
+		アイテム名
+	</div>
+	<div>
+		<input type="text" name="name" th:value="*{name}">
+	</div>
+
+	<div>
+		カテゴリー
+	</div>
+	<div>
+		<select name="category">
+	        <option
+	            th:each="category : ${categoryList}"
+	            th:value="${category.id}"
+	            th:text="${category.name}"
+	            th:selected="${category.id == selectedCategory}"
+	        >
+	        </option>
+	     </select>
+     </div>
+     
+     <div>
+		数量
+	 </div>
+	 <div>
+		<input type="number" name="amount" th:value="*{amount}"/>
+	</div>
+
+	<div>
+		期日
+	</div>
+	<div>
+		<input type="date" name="expirationDate" th:value="*{#dates.format(expirationDate, 'yyyy-MM-dd')}">
+	</div>
+
+	<div>
+		<button type="submit"> 更新 </button>
+	</div>
+</form>
+</body>
+</html>
