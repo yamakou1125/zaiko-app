@@ -40,7 +40,7 @@
 		</td>
 
 		<td>
-			<form th:action="@{/itemdelete/{id}(id=${item.id})}" th:method="delete">
+			<form th:action="@{/itemDelete/{id}(id=${item.id})}" th:method="delete">
 				<input type="submit" value="削除" onclick="confirm('削除しますか')">
 			</form>
 		</td>

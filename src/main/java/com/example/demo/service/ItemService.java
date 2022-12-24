@@ -47,4 +47,9 @@ public class ItemService {
 		Item item = (Item) itemRepository.findById(id).orElse(null);
 		return item;
 	}
+	
+	//レコード削除
+	public void deleteItem(Integer id) {
+		itemRepository.deleteById(id);
+	}
 }
