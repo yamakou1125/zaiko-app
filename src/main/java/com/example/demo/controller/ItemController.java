@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -145,4 +146,62 @@ public class ItemController {
 		mav.setViewName("/itemEdit");
 		return mav;
 	}
+	
+	// アイテム編集処理
+		@PutMapping("/updateitem/{id}")
+		public ModelAndView updateItem(@PathVariable Integer id, @ModelAttribute("itemModel") Item item, BindingResult result,
+				@RequestParam(name = "category") int categoryId, @RequestParam(name = "expirationDate", required = false) String expirationDate) {
+
+			ModelAndView mav = new ModelAndView();
+			List<String> errorMessages = new ArrayList<String>();
+
+			String name = item.getName();
+		    Integer amount = item.getAmount();
+
+			//バリデーション(アイテム名)
+			if (Strings.isBlank(name)) {
+				errorMessages.add("アイテム名を入力してください");
+			}
+
+			//バリデーション(カテゴリー)
+			if (categoryId == 0) {
+				errorMessages.add("カテゴリーを選択してください");
+			}
+			
+			//バリデーション(数量)
+			if(amount == null) {
+				errorMessages.add("数量を入力してください");
+			}
+
+
+			//バリデーション(期日)
+			if (Strings.isBlank(expirationDate)) {
+				errorMessages.add("期日を入力してください");
+			}else {
+				expirationDate += " 00:00:00";
+				Timestamp tm = Timestamp.valueOf(expirationDate);
+				item.setExpirationDate(tm);
+			}
+
+			//エラーメッセージ数をチェック
+			if (errorMessages.size() != 0) {
+				mav.setViewName("/itemEdit");
+				mav.addObject("errorMessages", errorMessages);
+				List<Category> categoryList = itemService.findAllCategory();
+				//カテゴリーリストをセット
+		        mav.addObject("categoryList", categoryList);
+		        //カテゴリーリスト初期値をセット
+		        mav.addObject("selectedCategory", categoryId);
+		        mav.addObject("expirationDate", expirationDate);
+				return mav;
+			}
+
+			// UrlParameterのidを更新するentityにセット
+			item.setId(id);
+			item.setCategoryId(categoryId);
+			// 編集した投稿を更新
+			itemService.saveItem(item);
+			// rootへリダイレクト
+			return new ModelAndView("redirect:/");
+		}
 }
