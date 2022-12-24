@@ -13,6 +13,8 @@ import com.example.demo.entity.Item;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemRepository;
 
+import io.micrometer.common.util.StringUtils;
+
 @Service
 public class ItemService {
 	@Autowired
@@ -26,9 +28,14 @@ public class ItemService {
 	}
 	
 	//アイテムリスト取得
-		public List<Item> findAllItem() {
+	public List<Item> findAllItem(String category) {
+		if (!StringUtils.isBlank(category)) {
+			int castCategory = Integer.parseInt(category);
+			return itemRepository.findAllItem(castCategory);
+		} else {
 			return itemRepository.findAll();
 		}
+	}
 	
 	//レコード追加
 	public void saveItem(Item item) {
