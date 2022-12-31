@@ -2,65 +2,97 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>top</title>
+<title>top画面</title>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}">
+<script src="https://kit.fontawesome.com/58998178ed.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>在庫管理アプリ TOP画面</h1>
-<a href="/signup">ユーザー 新規登録</a>
-<a href="/login">ログイン</a>
-<div th:block th:if="${loginUser != empty}">
-	<a th:href="@{/userEdit/{id}(id=${session.loginUser.id})}">ユーザー 編集</a>
-	<a href="/logout">ログアウト</a>
-	<a href="/category">カテゴリー 一覧</a>
-	<a href="/new">アイテム 新規登録</a>
-</div>
+<header class="mt-5 mb-4">
+	<div class="container">
+		<div class="raw text-right">
+			<div class-"col">
+				<div th:block th:if="${loginUser == empty}">
+					<a href="/signup"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-user-plus"></i> ユーザ新規登録</button></a>
+					<a href="/login"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-right-to-bracket"></i> ログイン</button></a>
+				</div>
+				<div th:block th:if="${loginUser != empty}">
+					<a href="/new"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-circle-plus"></i> アイテム新規登録</button></a>
+					<a href="/category"><button type="button" class="btn btn-outline-warning btn-sm"><i class="fa-solid fa-list"></i> カテゴリ一覧</button></a>
+					<a th:href="@{/userEdit/{id}(id=${session.loginUser.id})}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-user-pen"></i> ユーザ編集</button></a>
+					<a href="/logout"><button type="button" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
 
-<!-- 絞り込み -->
-<h4>カテゴリーで絞り込み</h4>
+<div class="container">
+	<div th:block th:if="${loginUser == empty}">
+	<div class="row mt-5">
+		<div class="col text-center">
+			<h1><i class="fa-solid fa-utensils"></i> 在庫管理アプリ</h1>
+		</div>
+	</div>
+	</div>
+	
+	<div th:block th:if="${loginUser != empty}">
+	<div class="row mb-3">
+		<div class="col">
+			<h1><i class="fa-solid fa-utensils"></i> 在庫管理アプリ</h1>
+		</div>
+	</div>
+	
+	<div class="row mb-3 text-right">
+		<div class="col">
 		<form th:action="@{/}" th:method="get">
-					<label>
-						<select name="category">
-							<option value=""></option>
-							<option th:each="category : ${categoryList}"
-								th:value="${category.id}" th:text="${category.name}"
-								th:selected="${category.id == selectedCategory}"></option>
-						</select>
-					</label>
-				<button type="submit">
-					検索
-				</button>
+			<label>
+				<select name="category">
+					<option value=""></option>
+					<option th:each="category : ${categoryList}"
+						th:value="${category.id}" th:text="${category.name}"
+						th:selected="${category.id == selectedCategory}"></option>
+				</select>
+			</label>
+			<button type="submit" class="btn btn-outline-info btn-sm">
+				<i class="fa-solid fa-magnifying-glass"></i> カテゴリ検索
+			</button>
 		</form>
-<table>
-	<tr>
-		<th>アイテム名</th>
-		<th>カテゴリー</th>
-		<th>数量</th>
-		<th>期日</th>
-		<th>編集</th>
-		<th>削除</th>
-	</tr>
-
-	<tr th:each="item : ${itemList}">
-
-		<td th:text="${item.name}"></td>
-
-		<th:block th:each="category : ${categoryList}">
-		<th:block th:if="${item.categoryId == category.id}">
-		<td th:text="${category.name}"></td>
-		
-		<td th:text="${item.amount}"></td>
-		<td th:text="${#dates.format(item.expirationDate, 'yyyy/MM/dd')}">
-
-		<td>
-		 <a th:href="@{/itemEdit/{id}(id=${item.id})} "><button type="submit">編集</button></a>
-		</td>
-
-		<td>
-			<form th:action="@{/itemDelete/{id}(id=${item.id})}" th:method="delete">
-				<input type="submit" value="削除" onclick="confirm('削除しますか')">
-			</form>
-		</td>
-	</tr>
-</table>
+		</div>
+	</div>
+	
+	<table class="table">
+		<tr>
+			<th>アイテム名</th>
+			<th>カテゴリー</th>
+			<th>数量</th>
+			<th>期日</th>
+			<th></th>
+			<th></th>
+		</tr>
+	
+		<tr th:each="item : ${itemList}">
+	
+			<td th:text="${item.name}"></td>
+	
+			<th:block th:each="category : ${categoryList}">
+			<th:block th:if="${item.categoryId == category.id}">
+			<td th:text="${category.name}"></td>
+			
+			<td th:text="${item.amount}"></td>
+			<td th:text="${#dates.format(item.expirationDate, 'yyyy/MM/dd')}">
+	
+			<td>
+			 <a th:href="@{/itemEdit/{id}(id=${item.id})} "><button type="submit" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-pen-to-square"></i> 編集</button></a>
+			</td>
+	
+			<td>
+				<form th:action="@{/itemDelete/{id}(id=${item.id})}" th:method="delete">
+					<button type="submit" class="btn btn-outline-danger btn-sm" onclick="confirm('削除しますか')"><i class="fa-solid fa-circle-minus"></i> 削除</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>
+</div>
 </body>
 </html>
