@@ -3,27 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <title>ログイン画面</title>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}">
+<script src="https://kit.fontawesome.com/58998178ed.js" crossorigin="anonymous"></script>
 </head>
 <body>
-	<h1>ログイン画面</h1>
-	
-	<div>
-		<div th:each="errorMessage : ${errorMessages}">
-			<div th:text="${errorMessage}" style="color: red;"></div>
+<header class="mt-5 mb-4">
+	<div class="container">
+		<div class="raw text-right">
+			<div class-"col">
+				<div th:block th:if="${loginUser == empty}" class="mb-5">
+					<a href="/signup"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-user-plus"></i>ユーザ新規登録</button></a>	
+				</div>
+			</div>
 		</div>
 	</div>
-	<form action="postLogin" method="post" th;object="${loginUser}">
-		<div>
-			<label for="name">名前</label>
-			<input name="name" id="name"/>
-		</div>
-		<div>
-			<label for="password">パスワード</label>
-			<input name="password" type="password" id="password">
-		</div>
-		<div>
-			<button type="submit"> ログイン</button>
-		</div>
-	</form>
+</header>
+<div class="container">
+	<div class="row text-center">
+		<div class="col-12">		
+			<div class="raw text-center mb-5">
+				<h1><i class="fa-solid fa-right-to-bracket"></i>　ログイン画面</h1>
+			</div>
+	
+			<div th:each="errorMessage : ${errorMessages}" class="raw text-center">
+				<div th:text="${errorMessage}" style="color: red;"></div>
+			</div>
+		
+			<form action="postLogin" method="post" th;object="${loginUser}">
+			<div class="raw text-center">
+				<div class="text-center">
+					<label for="name">名前</label>
+				</div>
+				<div class="text-center mb-3">
+					<input name="name" id="name"/>
+				</div>
+			</div>
+			
+			<div class="raw">
+				<div class="text-center">
+					<label for="password">パスワード</label>
+				</div>
+				<div class="text-center mb-5">
+					<input name="password" type="password" id="password">
+				</div>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-right-to-bracket"></i> ログイン</button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
 </body>
 </html>
