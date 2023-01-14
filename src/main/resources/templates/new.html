@@ -3,62 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}">
+<script src="https://kit.fontawesome.com/58998178ed.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div>
-	<h3>
-		在庫 新規登録
-	</h3>
-</div>
-
-<div>
-	<th:block th:each="errorMessages : ${errorMessages}">
-		<th:block th:text="${errorMessages}">
-		</th:block>
-	</th:block>
-</div>
-
-<div>
-	<form method="post" action="/additem" th:object="${itemModel}">
-		<input type="hidden" name="userId" th:value="${session.loginUser.id}" />
-		<div>
-			商品名
-		</div>
-		<div>
-			<input type="text" name="name" th:value="*{name}" />
-		</div>
-		<div>
-			在庫数
-		</div>
-		<div>
-			<input type="number" name="amount" th:value="*{amount}"/>
-		</div>
-		<div>
-			カテゴリー
-		</div>
-		<div>
-			<select name="category">
-				<option value="00"></option>
-				<option th:each="category : ${categoriesList}"
-					th:value="${category.id}" th:text="${category.name}"
-					th:selected="${category.id == selectedCategory}">
-				</option>
-			</select>
-		</div>
-		<div>
-			期限
-		</div>
-		<div>
-			<input type= "date" name="expirationDate" th:value="*{expirationDate}" />
-		</div>
-		<div>
-			<div>
-				<button type="submit">
-					登録
-				</button>
+<header class="mt-5 mb-4">
+	<div class="container">
+		<div class="raw text-right">
+			<div class-"col">
+				<div th:block th:if="${loginUser == empty}">
+					<a href="/signup"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-user-plus"></i> ユーザ新規登録</button></a>
+					<a href="/login"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-right-to-bracket"></i> ログイン</button></a>
+				</div>
+				<div th:block th:if="${loginUser != empty}">
+					<a href="/category"><button type="button" class="btn btn-outline-warning btn-sm"><i class="fa-solid fa-list"></i> カテゴリ一覧</button></a>
+					<a th:href="@{/userEdit/{id}(id=${session.loginUser.id})}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-user-pen"></i> ユーザ編集</button></a>
+					<a href="/logout"><button type="button" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button></a>
+				</div>
 			</div>
 		</div>
-	</form>
+	</div>
+</header>
+	<div class="container">
+	<div class="row text-center">
+		<div class="col-12">		
+			<div class="raw text-center mb-5">
+				<h1><i class="fa-solid fa-circle-plus"></i>　在庫 新規登録</h1>
+			</div>
+				
+			<div class="mb-3">
+				<th:block th:each="errorMessages : ${errorMessages}" class="raw text-center">
+					<div th:text="${errorMessages}" class="text-danger">
+					</div>
+				</th:block>
+			</div>
+				
+			<form method="post" action="/additem" th:object="${itemModel}">
+			<input type="hidden" name="userId" th:value="${session.loginUser.id}" />
+			<div class="raw text-center">
+				<div class="text-center">
+					商品名
+				</div>	
+				<div class="text-center mb-3">
+					<input type="text" name="name" th:value="*{name}">
+				</div>
+			</div>
+				
+			<div class="raw">
+				<div class="text-center">
+					在庫数
+				</div>
+				<div class="text-center mb-3">
+					<input type="number" name="amount" th:value="*{amount}"/>
+				</div>
+			</div>
+			
+			<div class="raw">
+				<div class="text-center">
+					カテゴリー
+				</div>
+				<div class="text-center mb-3">
+					<select name="category">
+						<option value="00"></option>
+						<option th:each="category : ${categoriesList}"
+							th:value="${category.id}" th:text="${category.name}"
+							th:selected="${category.id == selectedCategory}">
+						</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="raw">
+				<div class="text-center">
+					期限
+				</div>
+				<div class="text-center mb-5">
+					<input type= "date" name="expirationDate" th:value="*{expirationDate}" />
+				</div>
+			</div>
+			
+			<div class="raw">
+				<button type="submit" class="btn btn-outline-success btn-sm">
+					<i class="fa-solid fa-circle-plus"></i> 登録
+				</button>
+			</div>
+			</form>
 </div>
 </body>
 </html>

@@ -3,31 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <title>カテゴリー 一覧</title>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}">
+<script src="https://kit.fontawesome.com/58998178ed.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>カテゴリー 一覧</h1>
-<a href="/newcategory">カテゴリー 新規登録画面</a>
-<table>
-	<tr>
-		<th>カテゴリー名</th>
-		<th>編集</th>
-		<th>削除</th>
-	</tr>
-
-	<tr th:each="category : ${categoryList}">
-
-		<td th:text="${category.name}"></td>
-
-		<td>
-		 <a th:href="@{/categoryEdit/{id}(id=${category.id})} "><button type="submit">編集</button></a>
-		</td>
-
-		<td>
-			<form th:action="@{/categorydelete/{id}(id=${category.id})}" th:method="delete">
-				<input type="submit" value="削除" onclick="confirm('削除しますか')">
-			</form>
-		</td>
-	</tr>
-</table>
+<header class="mt-5 mb-4">
+	<div class="container">
+		<div class="raw text-right">
+			<div class-"col">
+				<div th:block th:if="${loginUser == empty}">
+					<a href="/signup"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-user-plus"></i> ユーザ新規登録</button></a>
+					<a href="/login"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-right-to-bracket"></i> ログイン</button></a>
+				</div>
+				<div th:block th:if="${loginUser != empty}">
+					<a href="/new"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-circle-plus"></i> アイテム新規登録</button>
+					<a th:href="@{/userEdit/{id}(id=${session.loginUser.id})}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-user-pen"></i> ユーザ編集</button></a>
+					<a href="/logout"><button type="button" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+<div class="container">
+	<div class="row mt-5 mb-3">
+		<div class="col text-center">
+			<h1><i class="fa-solid fa-list"></i> カテゴリー 一覧</h1>
+		</div>
+	</div>
+	<div class="row mb-3">
+		<div class="col text-center">
+			<a href="/newcategory"><button type="button" class="btn btn-outline-warning btn-sm"><i class="fa-solid fa-circle-plus"></i> カテゴリー 新規登録画面</button></a>
+		</div>
+	</div>
+	<table class="table">
+		<tr>
+			<th>カテゴリー名</th>
+			<th>編集</th>
+			<th>削除</th>
+		</tr>
+	
+		<tr th:each="category : ${categoryList}">
+	
+			<td th:text="${category.name}"></td>
+	
+			<td>
+			 <a th:href="@{/categoryEdit/{id}(id=${category.id})} "><button type="submit" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-pen-to-square"></i> 編集</button></a>
+			</td>
+	
+			<td>
+				<form th:action="@{/categorydelete/{id}(id=${category.id})}" th:method="delete">
+					<button type="submit" class="btn btn-outline-danger btn-sm" onclick="confirm('削除しますか')"><i class="fa-solid fa-circle-minus"></i> 削除</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>
 </body>
 </html>

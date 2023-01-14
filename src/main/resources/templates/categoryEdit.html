@@ -3,26 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <title>カテゴリー 編集画面</title>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}">
+<script src="https://kit.fontawesome.com/58998178ed.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>カテゴリー 編集画面</h1>
-	<div class="col-12">
-		<th:block th:each="errorMessages : ${errorMessages}">
-			<th:block th:text="${errorMessages}"></th:block><br>
-		</th:block>
+<header class="mt-5 mb-4">
+	<div class="container">
+		<div class="raw text-right">
+			<div class-"col">
+				<div th:block th:if="${loginUser == empty}">
+					<a href="/signup"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-user-plus"></i> ユーザ新規登録</button></a>
+					<a href="/login"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-right-to-bracket"></i> ログイン</button></a>
+				</div>
+				<div th:block th:if="${loginUser != empty}">
+					<a href="/new"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-circle-plus"></i> アイテム新規登録</button>
+					<a href="/category"><button type="button" class="btn btn-outline-warning btn-sm"><i class="fa-solid fa-list"></i> カテゴリ一覧</button></a>
+					<a th:href="@{/userEdit/{id}(id=${session.loginUser.id})}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-user-pen"></i> ユーザ編集</button></a>
+					<a href="/logout"><button type="button" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button></a>
+				</div>
+			</div>
+		</div>
 	</div>
+</header>
+<div class="container">
+	<div class="row text-center">
+		<div class="col-12">		
+			<div class="raw text-center mb-5">
+				<h1><i class="fa-solid fa-pen-to-square"></i>　カテゴリー 編集画面</h1>
+			</div>
+			
+		<div class="col-12">
+			<th:block th:each="errorMessages : ${errorMessages}">
+				<th:block th:text="${errorMessages}"></th:block><br>
+			</th:block>
+		</div>
 
 	<form th:action="@{/updatecategory/{id}(id=${category.id})}" th:object="${category}" th:method="put">
-
-		<div>
-		カテゴリー
+	<div class="raw text-center">
+		<div class="text-center">
+			カテゴリー
 		</div>
-		<div>
+		<div  class="text-center mb-5">
 			<input type="text" name="name" id="name" th:value="${category.name}">
         </div>
 		
-		<div>
-			<button type="submit">更新</button>
+		<div class="raw">
+			<button type="submit" class="btn btn-outline-success btn-sm"><i class="fas fa-sync"></i> 更新</button>
 		</div>
 	</form>
 	
