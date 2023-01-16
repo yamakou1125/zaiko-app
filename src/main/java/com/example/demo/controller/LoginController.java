@@ -50,7 +50,7 @@ public class LoginController {
 		String name = user.getName();
 
 		if(Strings.isBlank(name)){
-			errorMessages.add("ユーザー名を入力してください");
+			errorMessages.add("名前を入力してください");
 		}
 
 		String strPassword = user.getPassword();
@@ -69,7 +69,7 @@ public class LoginController {
 
 			//該当のユーザーが存在しないとき
 			if(user == null) {
-				errorMessages.add("アカウント名またはパスワードが誤っています");
+				errorMessages.add("名前またはパスワードが誤っています");
 
 			}
 		}
