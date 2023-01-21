@@ -48,15 +48,53 @@ public class UserController {
 	@PostMapping("/add")
 	public ModelAndView addUser(@ModelAttribute("user") User user,
 			@RequestParam(name = "confirmation_password") String password2) {
+		ModelAndView mav = new ModelAndView();
+		List<String> errorMessages = new ArrayList<String>();
+		
+		String name = user.getName();
+
+		User existUser = userService.findExistUser(name);
+		
+		if(existUser != null) {
+			errorMessages.add("この名前は既に使われています");
+		}
+		
+		if(Strings.isBlank(name)){
+			errorMessages.add("名前を入力してください");
+		}else if (name.length() > 20) {
+			errorMessages.add("名前は20字以下で入力してください");
+		}
+		
+		
 		// パスワードをhash化する
-				String strPassword = user.getPassword();
+		String strPassword = user.getPassword();
+		
+		if (Strings.isBlank(strPassword)) {
+			errorMessages.add("パスワードを入力してください");
+		}else if(strPassword.length() < 5 || strPassword.length() > 20) {
+			errorMessages.add("パスワードは5文字以上20文字以下で入力してください");
+		}else if (!strPassword.equals(password2)) {
+			errorMessages.add("パスワードと確認用パスワードが一致しません");
+		}else {
+			Hasher hasher = Hashing.sha256().newHasher();
+			hasher.putString(strPassword, Charsets.UTF_8);
+			HashCode sha256 = hasher.hash();
 
-				Hasher hasher = Hashing.sha256().newHasher();
-				hasher.putString(strPassword, Charsets.UTF_8);
-				HashCode sha256 = hasher.hash();
-
-				String strSha256 = String.valueOf(sha256);
-				user.setPassword(strSha256);
+			String strSha256 = String.valueOf(sha256);
+			user.setPassword(strSha256);
+		}
+		
+		if(Strings.isBlank(password2)){
+			errorMessages.add("確認用パスワードを入力してください");
+		}
+				
+		//バリデーションチェック
+		if (errorMessages.size() != 0) {
+			mav.addObject("errorMessages", errorMessages);
+			mav.setViewName("/signup");
+			return mav;
+		}
+				
 		userService.saveUser(user);
 		return new ModelAndView("/top");
 	}

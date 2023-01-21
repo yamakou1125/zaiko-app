@@ -30,6 +30,10 @@
 			<div class="raw text-center mb-5">
 				<h1><i class="fa-solid fa-user-plus"></i>　ユーザー 新規登録</h1>
 			</div>
+			
+			<div th:each="errorMessage : ${errorMessages}" class="raw text-center mb-3">
+				<div th:text="${errorMessage}" style="color: red;"></div>
+			</div>
 	
 			<form method="post" action="/add" th:object="${user}">
 			<div class="raw text-center">
@@ -52,7 +56,7 @@
 		
 			<div class="raw">
 				<div class="text-center">
-					<label for="password">パスワード確認用</label>
+					<label for="password">確認用パスワード</label>
 				</div>
 				<div class="text-center mb-5">
 					<input name="confirmation_password" type="password" id="confirmation_password" placeholder="5字以上20字以内">

@@ -21,6 +21,11 @@ public class UserService {
 		return userRepository.findByPasswordAndName(password, name);
 	}
 	
+	//レコード一件(名前検索)取得
+	public User findExistUser(String name) {
+		return userRepository.findByName(name);
+	}
+	
 	// ユーザIDの取得
 	public User findById(Integer id) {
 		User user =  userRepository.findById(id).orElse(null);
