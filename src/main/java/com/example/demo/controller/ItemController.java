@@ -73,15 +73,20 @@ public class ItemController {
 		List<String> errorMessages = new ArrayList<String>();
 
 		String name = item.getName();
+		Integer amount =  item.getAmount();
 
 		//バリデーション(アイテム名)
 		if (Strings.isBlank(name)) {
 			errorMessages.add("アイテム名を入力してください");
 		}
+		
+		if(amount == null) {
+			errorMessages.add("在庫数を入力してください");
+		}
 
 		//バリデーション(カテゴリー)
 		if (categoryId == 0) {
-			errorMessages.add("カテゴリーを選択してください");
+			errorMessages.add("カテゴリを選択してください");
 		}
 
 
@@ -100,7 +105,7 @@ public class ItemController {
 			mav.addObject("errorMessages", errorMessages);
 			List<Category> categoryList = itemService.findAllCategory();
 			//カテゴリリストをセット
-	        mav.addObject("categoryList", categoryList);
+	        mav.addObject("categoriesList", categoryList);
 	        //カテゴリリスト初期値をセット
 	        mav.addObject("selectedCategory", categoryId);
 	        mav.addObject("accrualDate", expirationDate);
