@@ -49,10 +49,19 @@
 			<input type="text" name="name" th:value="*{name}">
 		</div>
 	</div>
+	
+	<div class="raw">
+		<div class="text-center">
+			在庫数
+	 	</div>
+	 	<div class="text-center mb-3">
+			<input type="number" name="amount" th:value="*{amount}"/>
+		</div>
+     </div>
 
 	<div class="raw">
 		<div class="text-center">
-			カテゴリー
+			カテゴリ
 		</div>
 		<div  class="text-center mb-3">
 			<select name="category">
@@ -65,15 +74,6 @@
 	     	</select>
      	</div>
 	</div>
-     
-     <div class="raw">
-		<div class="text-center">
-			数量
-	 	</div>
-	 	<div class="text-center mb-3">
-			<input type="number" name="amount" th:value="*{amount}"/>
-		</div>
-     </div>
 	
 	<div class="text-center">
 		期日

@@ -80,6 +80,7 @@ public class ItemController {
 			errorMessages.add("アイテム名を入力してください");
 		}
 		
+		//バリデーション(在庫数)
 		if(amount == null) {
 			errorMessages.add("在庫数を入力してください");
 		}
@@ -120,7 +121,7 @@ public class ItemController {
 		return new ModelAndView("redirect:/");
 	}
 	
-	// 収入編集画面表示
+	// アイテム編集画面表示
 	@GetMapping("/itemEdit/{id}")
 	public ModelAndView editItem(@PathVariable Integer id, RedirectAttributes attributes) throws ParseException {
 		ModelAndView mav = new ModelAndView();
@@ -168,17 +169,16 @@ public class ItemController {
 			if (Strings.isBlank(name)) {
 				errorMessages.add("アイテム名を入力してください");
 			}
-
-			//バリデーション(カテゴリー)
-			if (categoryId == 0) {
-				errorMessages.add("カテゴリーを選択してください");
-			}
 			
-			//バリデーション(数量)
+			//バリデーション(在庫数)
 			if(amount == null) {
-				errorMessages.add("数量を入力してください");
+				errorMessages.add("在庫数を入力してください");
 			}
 
+			//バリデーション(カテゴリ)
+			if (categoryId == 0) {
+				errorMessages.add("カテゴリを選択してください");
+			}			
 
 			//バリデーション(期日)
 			if (Strings.isBlank(expirationDate)) {
