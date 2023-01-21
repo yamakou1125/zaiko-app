@@ -24,25 +24,34 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class CategoryController {
 	@Autowired
-	CategoryService categoryService;
-	@Autowired
 	HttpSession session;
+	
+	@Autowired
+	CategoryService categoryService;
+	
 	// カテゴリー 一覧画面表示
 	@GetMapping("/category")
-	public ModelAndView newcategory() {
+	public ModelAndView newcategory(RedirectAttributes attributes) {
 		ModelAndView mav = new ModelAndView();
 		User loginUser = (User) session.getAttribute("loginUser");
 		List<Category> categoryList = categoryService.findAllCategory();//DBにあるcategory全てを格納
 		mav.addObject("loginUser", loginUser);
 		mav.addObject("categoryList", categoryList);
-		mav.setViewName("/categorytop");
+		mav.setViewName("/categoryTop");
 		return mav;
 	}
 	
 	//カテゴリー 新規登録画面表示
 	@GetMapping("/newcategory")
-	public ModelAndView newCategory() {
+	public ModelAndView newCategory(RedirectAttributes attributes) {
 		ModelAndView mav = new ModelAndView();
+		//ログインフィルター
+		User loginUser = (User) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			attributes.addFlashAttribute("loginError", "ログインしてください");
+			mav.setViewName("redirect:/login");
+			return mav;
+		}
 		Category category = new Category();
 		mav.addObject("category", category);
 		mav.setViewName("/categoryNew");
@@ -52,8 +61,25 @@ public class CategoryController {
 	//カテゴリー登録処理
 	@PostMapping("/createcategory")
 	public ModelAndView createCategory(@ModelAttribute("category") Category category) {
+		ModelAndView mav = new ModelAndView();
+		List<String> errorMessages = new ArrayList<String>();
+		
+		String name = category.getName();
+		
+		//バリデーション(アイテム名)
+		if (Strings.isBlank(name)) {
+			errorMessages.add("カテゴリ名を入力してください");
+		}
+		
+		//エラーメッセージ数をチェック
+		if (errorMessages.size() != 0) {
+			mav.setViewName("/categoryNew");
+			mav.addObject("errorMessages", errorMessages);
+			return mav;
+		}
+		
 		categoryService.saveCategory(category);
-		return new ModelAndView("/categoryTop");
+		return new ModelAndView("redirect:/");
 	}
 	
 	// カテゴリー 編集画面表示
@@ -78,18 +104,23 @@ public class CategoryController {
 	
 	// カテゴリー編集処理
 	@PutMapping("/updatecategory/{id}")
-	public ModelAndView updateCategory(@PathVariable Integer id, @ModelAttribute("category") Category category) {
+	public ModelAndView updateCategory(@PathVariable Integer id, RedirectAttributes attributes,@ModelAttribute("category") Category category) {
 
 		ModelAndView mav = new ModelAndView();
 		//ログインしているユーザーの情報を取得
 		User loginUser = (User) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			attributes.addFlashAttribute("loginError", "ログインしてください");
+			mav.setViewName("redirect:/login");
+			return mav;
+		}
 		List<String> errorMessages = new ArrayList<String>();
 
 		String name = category.getName();
 
 		//バリデーション(カテゴリ名)
 		if (Strings.isBlank(name)) {
-			errorMessages.add("カテゴリー名を入力してください");
+			errorMessages.add("カテゴリ名を入力してください");
 		}
 
 

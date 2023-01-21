@@ -29,19 +29,17 @@
 	<div class="row text-center">
 		<div class="col-12">		
 			<div class="raw text-center mb-5">
-				<h1><i class="fa-solid fa-pen-to-square"></i>　カテゴリー 編集画面</h1>
+				<h1><i class="fa-solid fa-pen-to-square"></i>　カテゴリ 編集画面</h1>
 			</div>
 			
-		<div class="col-12">
-			<th:block th:each="errorMessages : ${errorMessages}">
-				<th:block th:text="${errorMessages}"></th:block><br>
-			</th:block>
+		<div th:each="errorMessage : ${errorMessages}" class="raw text-center mb-3">
+				<div th:text="${errorMessage}" style="color: red;"></div>
 		</div>
 
 	<form th:action="@{/updatecategory/{id}(id=${category.id})}" th:object="${category}" th:method="put">
 	<div class="raw text-center">
 		<div class="text-center">
-			カテゴリー
+			カテゴリ名
 		</div>
 		<div  class="text-center mb-5">
 			<input type="text" name="name" id="name" th:value="${category.name}">

@@ -32,6 +32,10 @@
 				<h1>カテゴリー 新規登録画面</h1>
 			</div>
 			
+	<div th:each="errorMessage : ${errorMessages}" class="raw text-center mb-3">
+				<div th:text="${errorMessage}" style="color: red;"></div>
+	</div>
+			
 	<form method="post" action="/createcategory" th:object="${category}">
 	<div class="raw text-center">
 		<div class="text-center">
