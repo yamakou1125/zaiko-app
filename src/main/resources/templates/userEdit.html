@@ -31,10 +31,10 @@
 				<h1><i class="fa-solid fa-user-pen"></i>　ユーザー 編集画面</h1>
 			</div>
 			
-			<div th:if="${errorMessages != null}" class="raw text-center">
-				<div th:each="errorMessage : ${errorMessages}">
-					<div th:text="${errorMessage}"></div>
-				</div>
+			<div class="mb-3 text-danger">
+				<th:block th:each="errorMessages : ${errorMessages}" class="raw text-center">
+					<th:block th:text="${errorMessages}"></th:block><br>
+				</th:block>
 			</div>
 			
 				<form th:action="@{/update_user/{id}(id=${loginUser.id})}" th:object="${loginUser}" th:method="put">
