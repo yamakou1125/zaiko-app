@@ -121,9 +121,8 @@ public class UserController {
 	// ユーザー編集処理
 	@PutMapping("/update_user/{id}")
 	public ModelAndView updateUser(
-			@PathVariable Integer id,
-			@ModelAttribute("loginUser") User user,
-			@RequestParam(name = "confirmation_password") String password2)
+			@PathVariable Integer id, RedirectAttributes attributes,
+			@ModelAttribute("loginUser") User user)
 			throws ParseException {
 
 		ModelAndView mav = new ModelAndView();
@@ -131,39 +130,26 @@ public class UserController {
 		
 		//ログインしているユーザーの情報を取得
 		User loginUser = (User) session.getAttribute("loginUser");
-		int loginUserId = loginUser.getId();
-
-		//編集するユーザーの情報を取得
-		User editUser = userService.findById(id);
-
-		//PWを初期化
-		String strPassword = null;
-
-		strPassword = user.getPassword();
-		String strPassword2 = password2;
-
-		if(id == loginUserId) {
-			//バリデーション(パスワード)
-			if (Strings.isBlank(strPassword)) {
-				errorMessages.add("パスワードを入力してください");
-			} else if (5 > strPassword.length()) {
-				errorMessages.add("パスワードは5文字以上で入力してください");
-			} else if (20 < strPassword.length()) {
-				errorMessages.add("パスワードは20文字以下で入力してください");
-			}else if (!strPassword.equals(strPassword2)) {
-				errorMessages.add("入力したパスワードと確認用パスワードが一致しません");
-			} else {
-				// パスワードをhash化する
-				Hasher hasher = Hashing.sha256().newHasher();
-				hasher.putString(strPassword, Charsets.UTF_8);
-				HashCode sha256 = hasher.hash();
-				String strSha256 = String.valueOf(sha256);
-				user.setPassword(strSha256);
-			}
-		}else {
-			String strSha256 = editUser.getPassword();
-			user.setPassword(strSha256);
+		if (loginUser == null) {
+			attributes.addFlashAttribute("loginError", "ログインしてください");
+			mav.setViewName("redirect:/login");
+			return mav;
 		}
+		
+		String name = user.getName();
+		
+		User existUser = userService.findExistUser(name);
+		
+		if(existUser != null && !loginUser.getName().equals(name)) {
+			errorMessages.add("この名前は既に使われています");
+		}
+		
+		if(Strings.isBlank(name)){
+			errorMessages.add("名前を入力してください");
+		}else if (name.length() > 20) {
+			errorMessages.add("名前は20字以下で入力してください");
+		}
+
 
 		// 編集する情報をセット
 		mav.addObject("loginUser", user);
@@ -176,6 +162,14 @@ public class UserController {
 			session.setAttribute("user", user);
 			mav.setViewName("/userEdit");
 			return mav;
+		}
+		
+		if(existUser != null) {
+			String password = existUser.getPassword();
+			user.setPassword(password);
+		}else {
+			String loginUserPassword = loginUser.getPassword();
+			user.setPassword(loginUserPassword);
 		}
 
 		// 編集したユーザ情報を更新
