@@ -16,6 +16,7 @@
 					<a href="/login"><button type="button" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-right-to-bracket"></i> ログイン</button></a>
 				</div>
 				<div th:block th:if="${loginUser != empty}">
+					<a href="/"><button type="button" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-house"></i> HOME</button></a>
 					<a href="/new"><button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-circle-plus"></i> アイテム新規登録</button></a>
 					<a href="/category"><button type="button" class="btn btn-outline-warning btn-sm"><i class="fa-solid fa-list"></i> カテゴリ一覧</button></a>
 					<a href="/logout"><button type="button" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button></a>
